@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" /><title>Mario Like</title>
+    <body>
+    <script
+src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js">
+
+    //Variables
+    var config = {
+    type: Phaser.AUTO,
+    width: 900, height: 600,
+    physics: {
+    default: 'arcade',
+    arcade: {
+    gravity: { y: 0, x:0},
+    debug: false
+    }},
+    scene: {preload: preload, create: create, update: update }
+    };
+    new Phaser.Game(config);
+    function preload(){
+    
+    this.load.image('fond', 'assets/fond.png');
+    this.load.image('perso', 'assets/carreperso.png');
+
+    }
+
+    var fond;
+    var perso;
+
+
+
+    function create(){
+    fond = this.physics.add.staticGroup();
+    fond.create(200, 268, 'decors');
+    }
+
+
+
+
+
+
+    </script>
+</body>
+</html>

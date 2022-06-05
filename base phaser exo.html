@@ -1,0 +1,1244 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" /><title>Mon 1er jeu Phaser</title>
+    <script
+src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+    <style type="text/css"> body { margin: 0; }</style>
+</head>
+
+<body>
+    <script type="text/javascript">
+
+
+
+class Health {
+    health = 3
+    maxHealth = 3
+    heal = 0
+
+}
+
+
+
+class EcranAcceuil extends Phaser.Scene {
+            constructor() {
+
+                super("EcranAcceuil")
+
+                this.hero;
+                this.cursors;
+                this.gameOver = false;
+                this.camera;
+                this.vieJoueur = 5;
+
+            }
+
+            preload(){
+                this.load.image('ecranAccueil', 'assets/menu2.png')
+            }
+
+            create(){
+                this.ecranAccueil= this.physics.add.staticGroup();
+                this.ecranAccueil.create(500, 420, 'ecranAccueil');
+
+                this.cursors = this.input.keyboard.createCursorKeys();
+            }
+
+            update(){
+                if (this.cursors.space.isDown){
+                    this.scene.start ('Intro',{
+                    vieJoueur:5,
+                    })
+                }
+            }
+        }
+
+
+
+        
+
+            //DEBUT
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+        var config = {
+            pixelArt: true,
+            type: Phaser.AUTO,
+            width: 1000, height: 593,
+            physics: {
+            default: 'arcade',
+            arcade: {
+            gravity: { y: 800 },
+            debug: false
+            }},
+            scene: {preload: preload, create: create, update: update }
+            };
+            new Phaser.Game(config);
+            //FUNC PRELOAD
+            function preload(){
+
+
+
+
+
+                
+            this.load.image('Phaser_tuilesdejeu', 'testtileset4.png');
+            this.load.tilemapTiledJSON('carte', 'mapTest.json');
+
+
+
+
+
+
+            this.load.image('menu2', 'assets/menu2.jpg')
+            this.load.image('accueil', 'assets/accueil3.png')
+            this.load.image('livre', 'assets/livre4.png')
+            this.load.image('sky', 'assets/sky.png');
+            this.load.image('bg2', 'assets/bg3.png');
+            this.load.image('ground', 'assets/platform.png');
+            this.load.image('ground2', 'assets/platform_new.png');
+            this.load.image('star', 'assets/star.png');
+            this.load.image('platform_1', 'assets/platform_1');
+            this.load.image('bomb', 'assets/bomb.png');
+            this.load.image('objet', 'assets/objet.png');
+            this.load.image('objet2', 'assets/objet2.png');
+            this.load.image('grenouilledash', 'assets/grenouilledash.png');
+            this.load.image('fiche1', 'assets/fiche1.png');
+
+            this.load.image('vie1', 'assets/UI/vie1.png');
+            this.load.image('vie2', 'assets/UI/vie2.png');
+            this.load.image('vie3', 'assets/UI/vie3.png');
+            this.load.image('heal', 'assets/heal.png');
+            this.load.image('health1', 'assets/health1.png');
+            this.load.image('health2', 'assets/health2.png');
+            this.load.image('health3', 'assets/health3.png');
+            this.load.image('health4', 'assets/health4.png');
+            this.load.image('health5', 'assets/health5.png');
+
+            this.load.image('mana', 'assets/mana.png');
+            this.load.image('champi', 'assets/champi.png');
+            this.load.image('champi_vert', 'assets/champi_vert.png');
+
+
+            this.load.image('bg', 'assets/Menu.png');
+            this.load.image('bg_foret', 'assets/bg16.png');
+            this.load.image('bg_grotte', 'assets/bg4.png');
+            this.load.image('bg_vert', 'assets/bg17.png');
+            this.load.image('bg_bruit', 'assets/bg12.png');
+            this.load.image('bg_bruit_reverse', 'assets/bg13.png');
+            this.load.image('bg_haut', 'assets/bg14.png');
+            this.load.image('bg_colonnes', 'assets/bg19.png');
+            this.load.image('sanctuaire', 'assets/sanctuaire.png');
+            this.load.image('parchemin', 'assets/parchemin.png');
+            this.load.image('testmap', 'assets/testmap.png');
+            this.load.image('menu', 'UI/Menu.png');
+            this.load.image('menu3', 'assets/menu3.jpg');
+            this.load.image('background', 'assets/bg.png');
+            this.load.image('pique', 'assets/piques.png');
+            this.load.image('light', 'assets/light.png');
+
+            // chargement de l'image balle.png
+            this.load.image("bullet", "assets/bullet2.png");  
+            this.load.image("bullet3", "assets/bullet_blue.png");
+            this.load.image("bullet2", "assets/bullet22.png");
+
+
+            // chargement de l'image cible.png
+            this.load.image("cible", "assets/mob_rouge.png");
+            this.load.image('mob_bleu', 'assets/mob_bleu.png');
+            this.load.image('mob_vert', 'assets/mob_vert.png');  
+            this.load.image('mob_vert', 'assets/mob_vert.png');  
+            this.load.image('mob_croco', 'assets/croco.png');
+            this.load.image('mob_bloc', 'assets/mob_bloc.png');
+
+
+            //musique
+            this.load.audio('musiquefond', 'assets/main.ogg');
+            this.load.audio('pas', 'assets/pas.ogg');
+
+
+            //spritesheets
+            this.load.spritesheet('perso','assets/perso.png',
+            { frameWidth: 32, frameHeight: 48 });
+            this.load.spritesheet('debout', 'assets/perso_6.png',
+            { frameWidth: 32, frameHeight: 64});
+            this.load.spritesheet('accroupi', 'assets/accroupi10.png',
+            { frameWidth: 32, frameHeight: 32});
+            this.load.spritesheet('mob_vert_sheet', 'assets/mob_vert_sheet.png',
+            { frameWidth: 64, frameHeight: 64});
+            this.load.spritesheet('barre_mana', 'assets/barre_mana.png',
+            { frameWidth: 160, frameHeight: 48});
+            this.load.spritesheet('mob_blob', 'assets/blob.png',
+            { frameWidth: 64, frameHeight: 64});
+            this.load.spritesheet('manaverte', 'assets/manaverte.png',
+            { frameWidth: 64, frameHeight: 48});
+            this.load.spritesheet('golem', 'assets/golemsheet3.png',
+            { frameWidth: 64, frameHeight: 64});
+            this.load.spritesheet('volant', 'assets/mob_volant.png',
+            { frameWidth: 64, frameHeight: 64});
+            this.load.spritesheet('animmana', 'assets/animation_mana.png',
+            { frameWidth: 64, frameHeight: 48});
+            this.load.spritesheet('animmanableu', 'assets/animation_mana2.png',
+            { frameWidth: 64, frameHeight: 48});
+            this.load.spritesheet('bullet_green', 'assets/bulletgreen.png',
+            { frameWidth: 32, frameHeight: 32});
+        
+            }
+
+           
+            
+
+            //variables
+            var accueil;
+            var menu;
+            var livre;
+            var player;
+            var cursors;
+            var stars;
+            var parchemin;
+            var heal;
+            PV =+ 1
+
+
+            var mana;
+            var sourceMana = false
+            var pointsmana;
+            pointsmana = 4
+            var barre_mana;
+
+
+            var ManaVerteDeath = false
+
+            var VieJoueur
+
+
+
+            var Monstre1death = false
+            var Monstre2death = false
+            var Monstre3death = false
+            var Monstre4death = false
+            var Monstre5death = false
+            var Monstre6death = false
+            var Monstre9death = false
+            var Monstre10death = false
+            var Monstre11death = false
+            var Monstre15death = false
+            var Monstre16death = false
+            var piqueDeath
+
+
+            var mob_bleu;
+            var score;
+            score = 0
+            var scoreText;
+            var bombs;
+
+            var pointsdevie;
+            pointsdevie = 5
+            var gameOver = false
+
+
+
+            function manaPlayer (player, health1, health2, health3, health4, health5){
+                health1 = 5
+                health2 = 4
+                health3 = 3
+                health4 = 2
+                health5 = 1
+                scoreVie.settext('Mana :' + pointsmana)
+            }
+
+
+
+            function collectMana(player, mana){
+                mana.disableBody(true, true); 
+                pointsmana + 1;
+                if (manas.countActive(true) === 0){
+                    manas.children.iterate(function (child) {
+                        child.enableBody(true, child.x, 0, true, true);
+                })}};
+
+
+            function textObjet(player, objet){
+                objetText.setText('Texte');
+            }
+
+             function collectStar(player, star){
+                star.disableBody(true, true); 
+                pointsmana += 1;
+                //scoreText1.setText('Mana : ' + pointsmana); 
+                if (stars.countActive(true) === 0){
+                    stars.children.iterate(function (child) {
+                        child.enableBody(true, child.x, 0, true, true);
+                    }); 
+
+           
+
+
+
+                 
+
+
+
+
+                    var x = (player.x < 400) ? Phaser.Math.Between(400, 800) :
+                         Phaser.Math.Between(0, 400);
+
+                    var bomb = bombs.create(x, 16, 'bomb');
+                    bomb.setBounce(1);
+                    bomb.setCollideWorldBounds(true);
+                    bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                    bomb.allowGravity = false; 
+
+                    // mise en place d'une variable boutonFeu
+                    var boutonFeu;
+                    // mise en place d'une variable groupeBullets
+                    var groupeBullets;  
+                    // mise en place d'une variable groupeCibles
+                    var groupeCibles;  
+                    var groupeCiblesBleu;
+                    var dash = (player.setVelocity = 600);
+                    var objet
+                    var textI
+                }
+            }
+
+
+
+
+            function hitBomb(player, bomb){
+                this.physics.pause();
+                player.setTint(0xff0000);
+                player.anims.play('turn');
+                gameOver = true;
+            }
+
+            function tirer(player) {
+                if(pointsmana>0){
+                    var stockMana;
+                pointsmana -= 1
+                var coefDir;
+	            if (player.direction == 'left') { coefDir = -1; } else { coefDir = 1 };
+                // on crée la balle a coté du joueur
+                var bullet = groupeBullets.create(player.x + (25 * coefDir), player.y - 4, 'bullet_green');
+                // parametres physiques de la balle.
+                bullet.anims.play('bulletvert', true);
+                bullet.setCollideWorldBounds(true);
+                bullet.body.allowGravity =false;
+                bullet.setVelocity(450 * coefDir, 0); // vitesse en x et en y
+                }
+                } 
+
+
+            function tirScore(tirer) {
+                var tirerScore;
+                if (score <= 0) {tirer = none};
+            }
+
+            function hitMonstreG(player, MonstreG){
+                //if (this.invincible == false){
+                this.pointsmana -= 1
+                //this.invincible = true;
+                }
+            //};
+
+            function spawn(player, MonstreG){
+                player.set(30, 350)
+            }
+            
+            
+
+          
+
+
+            
+            //FUNCTION CREATE
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+            function create(){
+                
+                cursors = this.input.keyboard.createCursorKeys();
+
+
+        
+
+
+
+                var musique_de_fond;
+
+                musique_de_fond = this.sound.add('musiquefond');
+                //pour lancer la musique
+                //musique_de_fond.play(); 
+
+                var musique_pas;
+
+                musique_pas = this.sound.add('pas');
+
+
+
+                this.add.image(400, 400, 'bg_foret');
+                this.add.image(1600, 400, 'bg_foret');
+                this.add.image(2800, 400, 'bg_foret');
+                this.add.image(3000, 400, 'bg_foret');
+                this.add.image(4200, 400, 'bg_foret');
+                this.add.image(5400, 400, 'bg_foret');
+                this.add.image(6600, 400, 'bg_foret');
+                this.add.image(7800, 400, 'bg_foret');
+                this.add.image(9000, 400, 'bg_foret');
+                this.add.image(10200, 400, 'bg_foret');
+                this.add.image(11400, 400, 'bg_foret');
+                this.add.image(12600, 400, 'bg_foret');
+                this.add.image(13800, 400, 'bg_colonnes');
+                this.add.image(15000, 400, 'bg_colonnes');
+                this.add.image(16200, 400, 'bg_colonnes');
+                
+
+                
+                //this.add.image(1200, 300, 'bg2');
+                this.add.image(400, 1100, 'bg_vert');
+                this.add.image(1400, 1100, 'bg_vert');
+                this.add.image(2400, 1100, 'bg_vert');
+                this.add.image(3400, 1100, 'bg_vert');
+                this.add.image(4400, 1100, 'bg_vert');
+                this.add.image(5400, 1100, 'bg_vert');
+                this.add.image(6400, 1100, 'bg_vert');
+                this.add.image(7400, 1100, 'bg_vert');
+                this.add.image(8400, 1100, 'bg_vert');
+                this.add.image(9400, 1100, 'bg_vert');
+                this.add.image(10400, 1100, 'bg_vert');
+                this.add.image(11400, 1100, 'bg_vert');
+                this.add.image(12400, 1100, 'bg_vert');
+                this.add.image(13400, 1100, 'bg_vert');
+                this.add.image(14400, 1100, 'bg_vert');
+                this.add.image(15400, 1100, 'bg_vert');
+                this.add.image(16400, 1100, 'bg_vert');
+
+
+
+
+
+                Lights = this.physics.add.group({
+                    allowGravity:false,
+                });
+                Light1=Lights.create(10000, 300, 'light')
+                Light1.setVelocityX(10);
+                Light1.setVelocityY(10);
+
+                Light2=Lights.create(9000, 500, 'light')
+                Light2.setVelocityX(-10);
+                Light2.setVelocityY(10);
+
+                Light3=Lights.create(10400, 300, 'light')
+                Light3.setVelocityX(10);
+                Light3.setVelocityY(1);
+
+                Light4=Lights.create(10200, 600, 'light')
+                Light4.setVelocityX(10);
+                Light4.setVelocityY(-10);
+
+
+                Light5=Lights.create(50, 400, 'light')
+                Light5.setVelocityX(10);
+                Light5.setVelocityY(-10);
+
+                Light5=Lights.create(400, 200, 'light').setScale(0.7);
+                Light5.setVelocityX(-10);
+                Light5.setVelocityY(10);
+
+                Light5=Lights.create(600, 550, 'light')
+                Light5.setVelocityX(15);
+                Light5.setVelocityY(0);
+
+                Light5=Lights.create(800, 800, 'light').setScale(1.2);
+                Light5.setVelocityX(-10);
+                Light5.setVelocityY(-10);
+
+                Light5=Lights.create(480, 800, 'light').setScale(1.2);
+                Light5.setVelocityX(0);
+                Light5.setVelocityY(-25); 
+
+                Light5=Lights.create(950, 400, 'light')
+                Light5.setVelocityX(10);
+                Light5.setVelocityY(-10);
+
+                Light5=Lights.create(1350, 100, 'light')
+                Light5.setVelocityX(-10);
+                Light5.setVelocityY(-10);
+
+                Light5=Lights.create(1550, 280, 'light')
+                Light5.setVelocityX(10);
+                Light5.setVelocityY(10);
+
+                Light5=Lights.create(1780, 800, 'light').setScale(1.2);
+                Light5.setVelocityX(0);
+                Light5.setVelocityY(-25); 
+
+                Light5=Lights.create(1480, 800, 'light').setScale(0.8);
+                Light5.setVelocityX(5);
+                Light5.setVelocityY(25); 
+
+
+
+                Light6=Lights.create(9280, 1800, 'light').setScale(0.8);
+                Light6.setVelocityX(5);
+                Light6.setVelocityY(25); 
+
+
+
+
+
+
+
+
+
+
+
+                const carteDuNiveau = this.add.tilemap('carte');
+                const tileset = carteDuNiveau.addTilesetImage(
+                    'testtileset4',
+                    'Phaser_tuilesdejeu'
+                );
+
+                const plateformes = carteDuNiveau.createStaticLayer(
+                    'plateformes',
+                    tileset
+                );
+
+                const bg = carteDuNiveau.createStaticLayer(
+                    'bg',
+                    tileset
+                )
+
+                // définition des tuiles de plateformes qui sont solides
+                    // utilisation de la propriété estSolide
+
+                plateformes.setCollisionByProperty({ estSolide: true }); 
+
+
+
+
+
+
+                this.add.image(15850, 450, 'sanctuaire');
+
+
+
+
+
+
+                // ajout d'une collision entre le joueur et le calque plateformes
+                //this.physics.add.collider(player, collider);
+
+
+
+                
+
+
+                //this.add.image(400, 300, 'accueil');
+
+
+                
+
+                //MENU
+                ///////////////////////////////////////////////////
+                //menu = this.physics.add.staticGroup();
+                //menu.create(100, 300, 'testmap');
+                //menu = true
+                
+                
+                // création du clavier 
+                cursors = this.input.keyboard.createCursorKeys();
+                // affectation de la touche A à boutonFeu
+                boutonFeu = this.input.keyboard.addKey('A'); 
+                // création d'un groupe d'éléments vide
+                groupeBullets = this.physics.add.group(); 
+
+
+                // DASH
+                ////////////////////////////////////////////////////
+                cursors = this.input.keyboard.createCursorKeys();
+                dash = this.input.keyboard.addKey('B');
+
+
+                // MENU CURSORS
+                cursors = this.input.keyboard.createCursorKeys();
+                menu = this.input.keyboard.addKey('M');
+
+                // LIVRE CURSORS
+                cursors = this.input.keyboard.createCursorKeys();
+                livre = this.input.keyboard.addKey('L');
+
+
+
+
+
+
+
+
+
+                //OBJET
+                //objet2 = this.physics.add.staticGroup();
+                //objet2.create(200, 528, 'objet2');
+
+
+                //HEAL OBJET
+                //heal = this.physics.add.staticGroup();
+                //heal.create(650, 368, 'heal');
+
+                
+
+                //VIE
+                //vie1 = this.physics.add.staticGroup();
+                //vie1.create(85, 90, 'health1').setScale(1).refreshBody();
+
+
+
+                pique = this.physics.add.staticGroup();
+                pique.create(610, 878, 'pique');
+
+                pique.create(1990, 778, 'pique');
+                pique.create(1945, 778, 'pique');
+
+
+                pique.create(4540, 718, 'pique');
+                pique.create(4590, 718, 'pique');
+
+
+                pique.create(6033, 940, 'pique');
+
+                pique.create(6445, 760, 'pique');
+                pique.create(6495, 760, 'pique');
+                pique.create(6545, 760, 'pique');
+                pique.create(6595, 760, 'pique');
+                pique.create(6645, 760, 'pique');
+                pique.create(6695, 760, 'pique');
+                pique.create(6745, 760, 'pique');
+                pique.create(6795, 760, 'pique');
+                pique.create(6845, 760, 'pique');
+                pique.create(6895, 760, 'pique');
+                pique.create(6945, 760, 'pique');
+                pique.create(6995, 760, 'pique');
+                pique.create(7045, 760, 'pique');
+                pique.create(7095, 760, 'pique');
+                pique.create(7145, 760, 'pique');
+                pique.create(7195, 760, 'pique');
+                pique.create(7245, 760, 'pique');
+                pique.create(7295, 760, 'pique');
+                pique.create(7345, 760, 'pique');
+
+
+
+               
+
+
+
+
+                
+                barre_mana = this.physics.add.sprite(100, 50, 'barre_mana')
+                barre_mana.setScrollFactor(0);
+                barre_mana.setGravityY(-800);
+                
+                
+                
+
+
+
+                player = this.physics.add.sprite(13000, 550, 'debout').setSize(0.5).refreshBody();
+                player.setBounce(0.2);
+                player.setCollideWorldBounds(true);
+                //this.physics.add.collider(player, objet2);
+                this.physics.add.collider(player, plateformes);
+
+
+
+
+                //TEXTES
+                //////////////////////////////////////////////////////////////////////////////
+                //scoreText=this.add.text(25,400,'Mana :' + (pointsmana),{fontSize:'28px',fill:'#000'});
+                //scoreText1=this.add.text(25,400,'Mana :',{fontSize:'28px',fill:'#000'});
+
+                textObjet=this.add.text(200,450, 'Mana -->'),{fontSize:'2px',fill:'#000'}; 
+                
+                //scoreVie=this.add.text(20, 450, 'PV :' + (pointsdevie)), {fontSize:'28px',fill:'#000'};
+
+                    
+                //CAMERA
+                this.cameras.main.zoom = 1;          
+                this.physics.world.setBounds(0, 0, 16000, 960);
+                this.cameras.main.setBounds(0,0, 16000, 960);
+                this.cameras.main.setSize(1000, 593);     
+                this.cameras.main.startFollow(player);
+
+
+
+                //CIBLES//ENNEMIS
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                // MOB INTOUCHABLE
+                /*cibles = this.physics.add.group({
+                key: 'cible',
+                repeat: 0,
+                setXY: { x: 500, y: 0, stepX: 107 }
+                }); */ 
+
+                // ajout du modèle de collision entre cibles et plate-formes
+                //this.physics.add.collider(cibles, platforms);  
+
+                MonstreG=this.physics.add.group({
+                    allowGravity:true,
+                });
+
+                this.physics.add.collider(MonstreG, plateformes)
+                Monstre1=MonstreG.create(540,0,"mob_blob")    
+                //Monstre1.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                Monstre2=MonstreG.create(4820,0,"mob_blob")
+                Monstre3=MonstreG.create(1240,0,"mob_blob")
+                Monstre4=MonstreG.create(2670,0,"mob_blob")
+                Monstre10=MonstreG.create(5325,600,"mob_blob")
+                Monstre11=MonstreG.create(8335,600,"mob_blob")
+                Monstre16=MonstreG.create(13455,600,"mob_blob")
+
+
+                Monstre5=MonstreG.create(2350, 0, "golem").setScale(1.2);
+                Monstre14=MonstreG.create(12730, 400, "golem").setScale(1.2);
+
+
+
+                Monstre6=MonstreG.create(800, 400, 'volant')
+                //Monstre9=MonstreG.create(800, 400, 'volant')
+                Monstre9=MonstreG.create(6800, 400, 'volant')
+                Monstre13=MonstreG.create(11007, 400, 'volant')
+                Monstre15=MonstreG.create(13570, 250, 'volant')
+
+                Monstre7=MonstreG.create(1617, 0, 'mob_bloc')
+                //Monstre7.setVelocity(Phaser.Math.Between(-20, 0), 0);
+                Monstre8=MonstreG.create(3570, 0, 'mob_bloc')
+                Monstre12=MonstreG.create(9018, 260, 'mob_bloc')
+
+
+
+                
+
+
+                //CIBLES//ENNEMIS BLEU
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /*cibles = this.physics.add.group({
+                key: 'mob_bleu',
+                repeat: 0,
+                setXY: { x: 800, y: 0, stepX: 107 }
+                });
+
+                // ajout du modèle de collision entre cibles et plate-formes
+                this.physics.add.collider(cibles, platforms);  
+ 
+
+                mobs = this.physics.add.group({
+                key: 'mob_vert_sheet',
+                repeat: 0,
+                setXY: { x: 600, y: -1700, stepX: 107 }
+                });*/
+
+                // ajout du modèle de collision entre cibles et plate-formes
+                //this.physics.add.collider(mobs, platforms);  
+
+
+
+
+
+
+                //champis 
+                stars = this.physics.add.group({
+                    key: 'champi', repeat: 9,
+                    setXY: { x: 322, y: 0, stepX: 1702 },
+
+                
+ 
+
+                    });
+                stars.children.iterate(function (child) {
+                    child.setBounceY(Phaser.Math.FloatBetween(0, 0));
+                }); 
+                this.physics.add.collider(stars, plateformes);
+
+                this.physics.add.overlap(player, stars, collectStar, null, this);
+
+
+
+                manaverte = this.physics.add.staticGroup();
+                manaverte.create(320, 455, 'manaverte');
+                manaverte.create(2023, 390, 'manaverte');
+                manaverte.create(3725, 521, 'manaverte');
+                manaverte.create(5426, 390, 'manaverte');
+                manaverte.create(7130, 360, 'manaverte');
+                manaverte.create(8830, 200, 'manaverte');
+                manaverte.create(10534, 616, 'manaverte');
+                manaverte.create(10802, 130, 'manaverte');
+                manaverte.create(12238, 617, 'manaverte');
+                manaverte.create(13938, 297, 'manaverte');
+
+
+                sourceMana = this.physics.add.staticGroup();
+                sourceMana.create(-220, 455, 'animmana');
+
+
+
+
+
+
+
+                //this.add.image(400, 400, 'bg_bruit');
+                //this.add.image(400, 848, 'bg_bruit_reverse');
+                // this.add.image(400, -48, 'bg_bruit_reverse');
+                // this.add.image(1600, 400, 'bg_bruit');
+                // this.add.image(1600, 848, 'bg_bruit_reverse');
+                // this.add.image(1600, -48, 'bg_bruit_reverse');
+                // this.add.image(2800, 400, 'bg_bruit');
+                // this.add.image(2800, 848, 'bg_bruit_reverse');
+                // this.add.image(2800, -48, 'bg_bruit_reverse');
+                // this.add.image(4000, 400, 'bg_bruit');
+                // this.add.image(4000, 848, 'bg_bruit_reverse');
+                // this.add.image(4000, -48, 'bg_bruit_reverse');
+                // this.add.image(5200, 400, 'bg_bruit');
+                // this.add.image(5200, 848, 'bg_bruit_reverse');
+                // this.add.image(5200, -48, 'bg_bruit_reverse');
+                // this.add.image(6400, 400, 'bg_bruit');
+                // this.add.image(6400, 848, 'bg_bruit_reverse');
+                // this.add.image(6400, -48, 'bg_bruit_reverse');
+                // this.add.image(7600, 400, 'bg_bruit');
+                // this.add.image(7600, 848, 'bg_bruit_reverse');
+                // this.add.image(7600, -48, 'bg_bruit_reverse');
+                // this.add.image(8800, 400, 'bg_bruit');
+                // this.add.image(8800, 848, 'bg_bruit_reverse');
+                // this.add.image(8800, -48, 'bg_bruit_reverse');
+                // this.add.image(10000, 400, 'bg_bruit');
+                // this.add.image(10000, 848, 'bg_bruit_reverse');
+                // this.add.image(10000, -48, 'bg_bruit_reverse');
+                // this.add.image(11200, 400, 'bg_bruit');
+                // this.add.image(11200, 848, 'bg_bruit_reverse');
+                // this.add.image(11200, -48, 'bg_bruit_reverse');
+                // this.add.image(12400, 400, 'bg_bruit');
+                // this.add.image(12400, 848, 'bg_bruit_reverse');
+                // this.add.image(12400, -48, 'bg_bruit_reverse');
+
+
+
+
+
+
+
+
+                
+
+                // fonction déclenchée lorsque uneBalle et uneCible se superposent
+                function hit (uneBalle, uneCible) {
+                uneBalle.destroy(); // destruction de la balle
+                uneCible.destroy();  // destruction de la cible.
+                Monstre1death = true
+                Monstre2death = true
+                Monstre3death = true
+                Monstre4death = true
+                Monstre5death = true
+                Monstre6death = true
+                Monstre9death = true
+                Monstre10death = true
+                Monstre11death = true
+                Monstre15death = true
+                Monstre16death = true
+                }  
+
+
+
+
+                
+
+                this.physics.add.overlap(groupeBullets, MonstreG, hit, null,this);
+                //cibles.setVelocity(Phaser.Math.Between(-200, 0), 20);
+
+                function hitCibles(player, cibles){
+                this.physics.pause();
+                player.setTint(0xff0000);
+                player.anims.play('turn');
+                gameOver = true;
+            }
+
+            //overlaps
+            this.physics.add.overlap(player, MonstreG, spawn, null,this);
+            this.physics.add.overlap(player, pique, hit, null,this);
+                
+
+
+
+
+
+                //LIVRE
+                livres = this.physics.add.staticGroup();
+                livre1=livres.create(500, 550, 'livre').setScale(1);
+
+                //ACCUEIL
+                accueils = this.physics.add.staticGroup();
+                accueil=accueils.create(500, 560, 'accueil').setScale(0.9);
+            
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                //MOUVEMENT ANIM JOUEUR
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                this.anims.create({
+                    key: 'left',
+                    frames: this.anims.generateFrameNumbers('debout', {start:0,end:3}),
+                    frameRate: 10,
+                    repeat: -1
+                });
+                this.anims.create({
+                    key: 'turn',
+                    frames: [ { key: 'debout', frame: 4 } ],
+                    frameRate: 20
+                });
+                this.anims.create({
+                    key: 'right',
+                    frames: this.anims.generateFrameNumbers('debout', {start:5,end:8}),
+                    frameRate: 10,
+                    repeat: -1
+                });
+                this.anims.create({
+                    key: 'down',
+                    frames: this.anims.generateFrameNumbers('accroupi', {start:0,end:3}),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+
+
+
+
+                this.anims.create({
+                    key: 'blob',
+                    frames: this.anims.generateFrameNumbers('mob_blob', {start:0,end:3}),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+
+
+                this.anims.create({
+                    key: 'manaVert',
+                    frames: this.anims.generateFrameNumbers('manaverte', {start:0,end:9}),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+
+
+
+                this.anims.create({
+                    key: 'golemLeft',
+                    frames: this.anims.generateFrameNumbers('golem', {start:0,end:5}),
+                    frameRate: 10,
+                    repeat: -1
+                });
+                this.anims.create({
+                    key: 'golemRight',
+                    frames: this.anims.generateFrameNumbers('golem', {start:6,end:11}),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+
+
+                this.anims.create({
+                    key: 'vol',
+                    frames: this.anims.generateFrameNumbers('volant', {start:0,end:4}),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+
+                this.anims.create({
+                    key: 'animana1',
+                    frames: this.anims.generateFrameNumbers('animmana', {start:0,end:14}),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+                this.anims.create({
+                    key: 'bulletvert',
+                    frames: this.anims.generateFrameNumbers('bullet_green', {start:0,end:12}),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+
+
+
+                this.anims.create({
+                    key: 'mana5',
+                    frames: this.anims.generateFrameNumbers ('barre_mana', {start:0,end:0}),
+                    frameRate: 8,
+                    repeat: -1
+                })
+                this.anims.create({
+                    key: 'mana4',
+                    frames: this.anims.generateFrameNumbers ('barre_mana', {start:1,end:1}),
+                    frameRate: 8,
+                    repeat: -1
+                })
+                this.anims.create({
+                    key: 'mana3',
+                    frames: this.anims.generateFrameNumbers ('barre_mana', {start:2,end:2}),
+                    frameRate: 8,
+                    repeat: -1
+                })
+                this.anims.create({
+                    key: 'mana2',
+                    frames: this.anims.generateFrameNumbers ('barre_mana', {start:3,end:3}),
+                    frameRate: 8,
+                    repeat: -1
+                })
+                this.anims.create({
+                    key: 'mana1',
+                    frames: this.anims.generateFrameNumbers ('barre_mana', {start:4,end:4}),
+                    frameRate: 8,
+                    repeat: -1
+                })
+                this.anims.create({
+                    key: 'mana0',
+                    frames: this.anims.generateFrameNumbers ('barre_mana', {start:5,end:5}),
+                    frameRate: 8,
+                    repeat: -1
+                })
+            }
+
+                
+            
+
+        
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+            //UPDATE
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+            function update(){
+            
+            
+
+                
+
+                if (Phaser.Input.Keyboard.JustDown(menu)){
+                    accueil.disableBody(true,true);
+                }
+
+                if (Phaser.Input.Keyboard.JustDown(livre)){
+                    livre1.disableBody(true,true);
+                }
+
+
+
+
+
+
+
+                if (gameOver){return;}
+
+                
+                if (Monstre6.x <= 780){
+                Monstre6.setVelocityX(100)
+                }
+
+                if (Monstre6.x >= 800){
+                Monstre6.setVelocityX(-100)
+                }
+
+                if (Monstre9.x <= 6760){
+                Monstre9.setVelocityX(10)
+                }
+
+                if (Monstre9.x >= 6740){
+                Monstre9.setVelocityX(-10)
+                }
+
+
+
+
+
+                if (Monstre5.x <= 1900){
+                Monstre5.setVelocityX(50)
+                }
+
+                if (Monstre5.x >= 2100){
+                Monstre5.setVelocityX(-50)
+                }
+
+
+
+
+
+                if (Monstre8.x <= 1617){
+                Monstre8.setVelocityY(-100)
+                }
+
+                if (Monstre8.x >= 1610){
+                Monstre8.setVelocityY(100)
+                }
+
+
+
+
+
+                if (Monstre6death == false){
+                    Monstre6.anims.play('vol', true);
+                }
+
+                if (Monstre9death == false){
+                    Monstre9.anims.play('vol', true);
+                }
+
+                if (Monstre15death == false){
+                    Monstre15.anims.play('vol', true);
+                }
+
+                if (Monstre1death == false){
+                    Monstre1.anims.play('blob', true);
+                }
+
+                if (Monstre2death == false){
+                    Monstre2.anims.play('blob', true);
+                }
+
+                if (Monstre3death == false){
+                    Monstre3.anims.play('blob', true);
+                }
+                
+                if (Monstre4death == false){
+                    Monstre4.anims.play('blob', true);
+                }
+
+                if (Monstre10death == false){
+                    Monstre10.anims.play('blob', true);
+                }
+
+                if (Monstre11death == false){
+                    Monstre11.anims.play('blob', true);
+                }
+
+                if (Monstre16death == false){
+                    Monstre16.anims.play('blob', true);
+                }
+
+                if (Monstre5death == false & Monstre5.x <= 1900){
+                    Monstre5.anims.play('golemRight', true);
+                }
+                else if (Monstre5death == false & Monstre5.x <= 2100){
+                    Monstre5.anims.play('golemLeft', true);
+                }
+
+
+
+
+            
+
+
+
+
+
+
+                if (sourceMana == false){
+                    sourceMana.anims.play('animana1', true);
+                }
+
+
+
+
+                if (pointsmana == 5){
+                        barre_mana.anims.play('mana5', true);
+    
+                    }
+                if (pointsmana == 4){
+                        barre_mana.anims.play('mana4', true);
+                        
+                    }
+                if (pointsmana == 3){
+                        barre_mana.anims.play('mana3', true);
+                        
+                    }
+                if (pointsmana == 2){
+                        
+                        barre_mana.anims.play('mana2', true);
+                        
+                    }
+                if (pointsmana == 1){
+                        
+                        barre_mana.anims.play('mana1', true);
+                        
+                    }
+                if (pointsmana == 0){
+                       
+                        barre_mana.anims.play('mana0', true);
+                        
+                    }
+
+
+
+
+            
+                if (cursors.left.isDown){ //si la touche gauche est appuyée
+                    player.setVelocityX(-120); //alors vitesse négative en X
+                    player.anims.play('left', true); //et animation => gauche
+                    player.direction = 'left';
+                }
+                else if (cursors.right.isDown){ //sinon si la touche droite est appuyée
+                    player.setVelocityX(120); //alors vitesse positive en X
+                    player.anims.play('right', true); //et animation => droite
+                    player.direction = 'right';
+                }
+                else {
+                    player.setVelocityX(0);
+                    player.anims.play('turn');
+                }
+                if (cursors.up.isDown && player.body.onFloor()){
+                    //si touche haut appuyée ET que le perso touche le sol
+                    player.setVelocityY(-480); //alors vitesse verticale négative
+                    //(on saute)
+                    player.body.setSize(32,64,Boolean);
+                }
+                else if (cursors.down.isDown){
+                    player.anims.play('down');
+                    player.body.setSize(32,32,Boolean);
+                    player.body.setOffset(0,16);
+                }
+                else if (cursors.down.isDown && cursors.right.isDown){
+                    player.setVelocityX(800); //alors vitesse positive en X
+                    player.anims.play('right', true); //et animation => droite
+                }
+                // déclenchement de la fonction tirer() si appui sur boutonFeu 
+                if ( Phaser.Input.Keyboard.JustDown(boutonFeu)) {
+                tirer(player);
+                }  
+                if ( Phaser.Input.Keyboard.JustDown(dash) && cursors.right.isDown) {
+                player.setVelocityX(3000)
+                player.anims.play('dash', true);
+                }
+                else if ( Phaser.Input.Keyboard.JustDown(dash) && cursors.left.isDown) {
+                player.setVelocityX(-3000)
+                }
+                if (player.body.touching.objet){
+                print.parchemin;
+                }
+            }
+        
+    </script>
+</body>
+</html>
